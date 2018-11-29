@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @ Date       ：Created in 16:14 2018/11/29
  * @ Description：${description}
  * @ Modified By：
- * @Version: $version$
+ * @Version: 1.0.0
  */
 @Controller
 @RequestMapping("/api/login")
