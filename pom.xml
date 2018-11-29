@@ -37,12 +37,12 @@
 		</dependency>
 
 		<!-- 热部署模块 -->
-		<dependency>
+		<!--<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<version>1.3.8.RELEASE</version>
-			<optional>true</optional> <!-- 这个需要为 true 热部署才有效 -->
-		</dependency>
+			<optional>true</optional> &lt;!&ndash; 这个需要为 true 热部署才有效 &ndash;&gt;
+		</dependency>-->
 
 		<!-- swagger -->
 		<dependency>
@@ -95,15 +95,22 @@
 			<version>1.1.10</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.api.common.utils</groupId>
+			<artifactId>common-utils</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.management.interface.management</groupId>
+			<artifactId>interface-management</artifactId>
+			<version>1.0.0</version>
+			<scope>compile</scope>
+		</dependency>
+
 
 	</dependencies>
 
-	<distributionManagement>
-		<repository>
-			<id>public</id>
-			<url>http://122.114.110.171:8081/nexus/content/groups/public</url>
-		</repository>
-	</distributionManagement>
 
 
 	<build>
@@ -124,5 +131,36 @@
 		<finalName>genealogy-login</finalName>
 	</build>
 
+	<!--配置私服-->
+	<repositories>
+		<repository>
+			<id>mybatis-snapshot</id>
+			<name>MyBatis Snapshot Repository</name>
+			<url>http://122.114.110.171:8081/nexus/content/groups/public</url>
+		</repository>
+
+		<repository>
+			<id>spring-snapshots</id>
+			<url>http://122.114.110.171:8081/repository/maven-releases/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-milestones</id>
+			<url>http://122.114.110.171:8081/repository/maven-snapshots/</url>
+		</repository>
+
+		<repository>
+			<id>offical</id>
+			<name>Maven Official Repository</name>
+			<url>http://122.114.110.171:8081/maven2</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+
+	</repositories>
 
 </project>
