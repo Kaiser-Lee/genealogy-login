@@ -102,10 +102,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.management.interface.management</groupId>
-			<artifactId>interface-management</artifactId>
+			<groupId>com.genealogy</groupId>
+			<artifactId>genealogy-user-service-java</artifactId>
 			<version>1.0.0</version>
-			<scope>compile</scope>
 		</dependency>
 
 

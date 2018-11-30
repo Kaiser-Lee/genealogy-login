@@ -1,12 +1,10 @@
 package com.genealogylogin.controller;
 
-import com.genealogy.po.User;
 import com.genealogy.service.UserService;
 import com.management.utils.IPUtils;
 import com.management.utils.MD5Utils;
 import com.management.utils.R;
 import io.swagger.annotations.ApiParam;
-import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,10 +53,10 @@ public class LoginController {
             Map<String, Object> map = new HashMap<>();
             map.put("number",username);
             //List<SellerUser> list = sellerUserService.list(map);
-            List<User> list = userService.list(map);
+            //List<User> list = userService.list(map);
 
             // 设置session
-            request.getSession().setAttribute("user",list.get(0));
+           // request.getSession().setAttribute("user",list.get(0));
             //token
             //Serializable id = subject.getSession().getId();
             //将token放入redis
