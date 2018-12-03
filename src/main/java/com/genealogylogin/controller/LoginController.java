@@ -72,6 +72,7 @@ public class LoginController {
             Serializable id = subject.getSession().getId();
             //将token放入redis
             RedisManager manager = ApplicationContextRegister.getBean(RedisManager.class);
+            //manager.set("sys:isLogin", true);
             manager.set(("sys:login:user_token_" + id).getBytes(), list.get(0).getId().toString().getBytes() , 60*30);
             manager.set(("sys:user:id_" + list.get(0).getId()).getBytes(),id.toString().getBytes(), 60*30);
             //manager.set(("sys:user:user_info_" + list.get(0).getId()).getBytes(), JSONObject.toJSONString(list.get(0)).toString().getBytes(), 60*30);
