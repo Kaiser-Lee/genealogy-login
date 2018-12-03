@@ -1,20 +1,32 @@
 package com.genealogylogin.controller;
 
+import com.alibaba.dubbo.common.logger.Logger;
+import com.alibaba.dubbo.common.logger.LoggerFactory;
+import com.genealogy.po.User;
 import com.genealogy.service.UserService;
+import com.genealogylogin.common.config.ApplicationContextRegister;
+import com.management.redis.RedisManager;
 import com.management.utils.IPUtils;
 import com.management.utils.MD5Utils;
 import com.management.utils.R;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -43,27 +55,27 @@ public class LoginController {
             Long startTime = System.currentTimeMillis();
             String ip = IPUtils.getIpAddr(request);
             password = MD5Utils.encrypt(username, password);
-            //RedisManager redisManager = RedisManager.getRedisSingleton();
-           /* UsernamePasswordToken token = new UsernamePasswordToken(username, DigestUtils.md5Hex(password));
+            RedisManager redisManager = RedisManager.getRedisSingleton();
+            UsernamePasswordToken token = new UsernamePasswordToken(username, DigestUtils.md5Hex(password));
             token.setRememberMe(false);
             Subject subject = SecurityUtils.getSubject();
-            subject.login(token);*/
+            subject.login(token);
 
             //获取用户　
             Map<String, Object> map = new HashMap<>();
             map.put("number",username);
             //List<SellerUser> list = sellerUserService.list(map);
-            //List<User> list = userService.list(map);
+            List<User> list = userService.list(map);
 
             // 设置session
-           // request.getSession().setAttribute("user",list.get(0));
+            request.getSession().setAttribute("user",list.get(0));
             //token
-            //Serializable id = subject.getSession().getId();
+            Serializable id = subject.getSession().getId();
             //将token放入redis
-            /*RedisManager manager = ApplicationContextRegister.getBean(RedisManager.class);
+            RedisManager manager = ApplicationContextRegister.getBean(RedisManager.class);
             manager.set(("sys:login:user_token_" + id).getBytes(), list.get(0).getId().toString().getBytes() , 60*30);
             manager.set(("sys:user:id_" + list.get(0).getId()).getBytes(),id.toString().getBytes(), 60*30);
-            manager.set(("sys:user:user_info_" + list.get(0).getId()).getBytes(), JSONObject.toJSONString(list.get(0)).toString().getBytes(), 60*30);*/
+            //manager.set(("sys:user:user_info_" + list.get(0).getId()).getBytes(), JSONObject.toJSONString(list.get(0)).toString().getBytes(), 60*30);
 
             Long stopTime = System.currentTimeMillis();
             double time = (double) ((stopTime - startTime) / 1000);
