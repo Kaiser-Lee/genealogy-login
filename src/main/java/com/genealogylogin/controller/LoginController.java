@@ -54,7 +54,6 @@ public class LoginController {
         try {
             Long startTime = System.currentTimeMillis();
             String ip = IPUtils.getIpAddr(request);
-            password = MD5Utils.encrypt(username, password);
             RedisManager redisManager = RedisManager.getRedisSingleton();
             UsernamePasswordToken token = new UsernamePasswordToken(username, DigestUtils.md5Hex(password));
             token.setRememberMe(false);
