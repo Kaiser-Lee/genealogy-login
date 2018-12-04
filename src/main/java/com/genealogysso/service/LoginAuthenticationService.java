@@ -1,4 +1,4 @@
-package com.genealogylogin.service;
+package com.genealogysso.service;
 
 import com.management.utils.R;
 

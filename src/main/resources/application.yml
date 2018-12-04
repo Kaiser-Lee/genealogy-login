@@ -1,6 +1,7 @@
-fileload:
-  uploadPath: E:/var/genealogy/
-  showPath: /genealogy_img/
+#统一认证中心的地址
+server-url-prefix: http://www.sso.com:8443
+#本项目的地址
+client-host-url: http://www.crm.com:8088
 server:
   port: 8086
   session-timeout: 7200
@@ -25,3 +26,5 @@ spring:
       max-active: 100
       # 连接池最大阻塞等待时间（使用负值表示没有限制）
       max-wait: -1
+  thymeleaf:
+    prefix: classpath:/templates/

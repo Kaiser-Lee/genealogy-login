@@ -1,4 +1,4 @@
-package com.genealogylogin;
+package com.genealogysso;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -11,11 +11,11 @@ import org.springframework.context.annotation.ImportResource;
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 @SpringBootApplication
 @ServletComponentScan
-public class GenealogyLoginApplication {
+public class GenealogySSOApplication {
 
 	public static void main(String[] args) {
 
-		SpringApplication.run(GenealogyLoginApplication.class, args);
+		SpringApplication.run(GenealogySSOApplication.class, args);
 		System.out.println("main thread waiting");
 	}
 }

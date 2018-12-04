@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.genealogy-login</groupId>
-	<artifactId>genealogy-login</artifactId>
+	<groupId>com.genealogy-sso</groupId>
+	<artifactId>genealogy-sso</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
-	<name>genealogy-login</name>
+	<name>genealogy-sso</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
@@ -29,6 +29,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 
 
@@ -175,7 +180,7 @@
 				</dependencies>
 			</plugin>
 		</plugins>
-		<finalName>genealogy-login</finalName>
+		<finalName>genealogy-sso</finalName>
 	</build>
 
 	<!--配置私服-->

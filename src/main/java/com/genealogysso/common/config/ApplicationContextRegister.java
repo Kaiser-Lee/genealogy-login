@@ -1,4 +1,4 @@
-package com.genealogylogin.common.config;
+package com.genealogysso.common.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

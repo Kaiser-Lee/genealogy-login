@@ -1,4 +1,4 @@
-package com.genealogylogin.common.filter;
+package com.genealogysso.common.filter;
 
 import org.springframework.stereotype.Component;
 

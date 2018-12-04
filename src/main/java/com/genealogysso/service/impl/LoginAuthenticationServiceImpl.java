@@ -1,6 +1,6 @@
-package com.genealogylogin.service.impl;
+package com.genealogysso.service.impl;
 
-import com.genealogylogin.service.LoginAuthenticationService;
+import com.genealogysso.service.LoginAuthenticationService;
 import org.springframework.stereotype.Service;
 
 /**

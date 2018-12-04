@@ -1,4 +1,4 @@
-package com.genealogylogin.swagger;
+package com.genealogysso.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +23,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.genealogylogin.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.genealogysso.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

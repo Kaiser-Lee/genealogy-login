@@ -1,10 +1,10 @@
-package com.genealogylogin.controller;
+package com.genealogysso.controller;
 
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.genealogy.po.User;
 import com.genealogy.service.UserService;
-import com.genealogylogin.common.config.ApplicationContextRegister;
+import com.genealogysso.common.config.ApplicationContextRegister;
 import com.management.redis.RedisManager;
 import com.management.utils.IPUtils;
 import com.management.utils.MD5Utils;
@@ -19,6 +19,8 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +33,7 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @ Author     ：lufangpu
@@ -40,7 +43,6 @@ import java.util.Map;
  * @Version: 1.0.0
  */
 @Controller
-@RequestMapping("/api/login")
 public class LoginController {
 
     private static Logger logger = LoggerFactory.getLogger(LoginController.class);
@@ -86,5 +88,52 @@ public class LoginController {
             logger.info(e.getMessage());
         }
         return R.error("用户名或密码错误！");
+    }
+
+    @RequestMapping("/checkLogin")
+    public String checkLogin(String redirectUrl, HttpSession session, Model model){
+        // 判断是否存在全局会话
+        // 从会话中获取令牌信息，如果取不到说明没有全局会员，取到说明存在
+        String token = (String)session.getAttribute("token");
+        if(StringUtils.isEmpty(token)){
+            // 表示没有全局会话
+            model.addAttribute("redirectUrl",redirectUrl);
+            // 跳转到统一认证中心的登陆页面
+            return "login";
+        }
+        model.addAttribute("redirectUrl", redirectUrl);
+        return "redirect:" + redirectUrl;
+    }
+
+    @RequestMapping("login")
+    public String login(@RequestParam String username,@RequestParam String password,String redirectUrl, HttpSession session, Model model){
+        try {
+            UsernamePasswordToken utoken = new UsernamePasswordToken(username, DigestUtils.md5Hex(password));
+            utoken.setRememberMe(false);
+            Subject subject = SecurityUtils.getSubject();
+            subject.login(utoken);
+
+            // 创建令牌信息
+            String  token = UUID.randomUUID().toString();
+            // 创建全局会话，将令牌信息放入会话
+            session.setAttribute("token", token);
+            //
+            model.addAttribute("token", token);
+
+            return "redirect:" + redirectUrl;
+        } catch (Exception e) {
+            model.addAttribute("redirectUrl", redirectUrl);
+            logger.info(e.getMessage());
+        }
+        return "login";
+    }
+
+    @RequestMapping("/verify")
+    @ResponseBody
+    public String verifyToken(String token){
+        /*if(MockD){
+
+        }*/
+        return "true";
     }
 }

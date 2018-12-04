@@ -1,4 +1,4 @@
-package com.genealogylogin.common.authorization;
+package com.genealogysso.common.authorization;
 
 import com.genealogy.po.User;
 import com.genealogy.service.UserService;

@@ -1,9 +1,9 @@
-package com.genealogylogin.common.config;
+package com.genealogysso.common.config;
 
 
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
-import com.genealogylogin.common.authorization.UserRealm;
+import com.genealogysso.common.authorization.UserRealm;
 import com.management.brower.Constant;
 import com.management.redis.BDSessionListeners;
 import com.management.redis.RedisCacheManager;
