@@ -16,6 +16,12 @@ public class GenealogySSOApplication {
 	public static void main(String[] args) {
 
 		SpringApplication.run(GenealogySSOApplication.class, args);
-		System.out.println("main thread waiting");
+		System.out.println("ヾ(◍°∇°◍)ﾉﾞ    启动成功      ヾ(◍°∇°◍)ﾉﾞ\n" +
+				" ______                    _   ______            \n" +
+				"|_   _ \\                  / |_|_   _ `.          \n" +
+				"  | |_) |   .--.    .--. `| |-' | | `. \\  .--.   \n" +
+				"  |  __'. / .'`\\ \\/ .'`\\ \\| |   | |  | |/ .'`\\ \\ \n" +
+				" _| |__) || \\__. || \\__. || |, _| |_.' /| \\__. | \n" +
+				"|_______/  '.__.'  '.__.' \\__/|______.'  '.__.'  ");
 	}
 }

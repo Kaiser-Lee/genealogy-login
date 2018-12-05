@@ -101,12 +101,13 @@ public class LoginController {
             // 跳转到统一认证中心的登陆页面
             return "login";
         }
+        redirectUrl = redirectUrl + "?token=" +"token";
         model.addAttribute("redirectUrl", redirectUrl);
         return "redirect:" + redirectUrl;
     }
 
-    @RequestMapping("login")
-    public String login(@RequestParam String username,@RequestParam String password,String redirectUrl, HttpSession session, Model model){
+    @RequestMapping("/login")
+    public String login(String username,String password,String redirectUrl, HttpSession session, Model model){
         try {
             UsernamePasswordToken utoken = new UsernamePasswordToken(username, DigestUtils.md5Hex(password));
             utoken.setRememberMe(false);
@@ -119,6 +120,11 @@ public class LoginController {
             session.setAttribute("token", token);
             //
             model.addAttribute("token", token);
+            //将token放入redis,设置过期时间为一分钟
+            RedisManager manager = ApplicationContextRegister.getBean(RedisManager.class);
+            manager.set(("sys:login:user_token_" + token).getBytes(), token.getBytes(),60 * 30);
+
+            redirectUrl = redirectUrl + "?token=" +token;
 
             return "redirect:" + redirectUrl;
         } catch (Exception e) {
@@ -131,9 +137,12 @@ public class LoginController {
     @RequestMapping("/verify")
     @ResponseBody
     public String verifyToken(String token){
-        /*if(MockD){
-
-        }*/
-        return "true";
+        RedisManager manager = ApplicationContextRegister.getBean(RedisManager.class);
+        byte[] isToken = manager.get(("sys:login:user_token_" + token).getBytes());
+        if(isToken != null && isToken.length > 0){
+            manager.setExpire(60*30);
+            return "true";
+        }
+        return "false";
     }
 }
