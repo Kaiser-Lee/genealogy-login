@@ -5,6 +5,7 @@ import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.genealogy.po.User;
 import com.genealogy.service.UserService;
 import com.genealogysso.common.config.ApplicationContextRegister;
+import com.genealogysso.common.utils.UserAgentUtil;
 import com.management.redis.RedisManager;
 import com.management.utils.IPUtils;
 import com.management.utils.MD5Utils;
@@ -38,7 +39,7 @@ import java.util.UUID;
 /**
  * @ Author     ：lufangpu
  * @ Date       ：Created in 16:14 2018/11/29
- * @ Description：${description}
+ * @ Description：用户登录认证
  * @ Modified By：
  * @Version: 1.0.0
  */
@@ -50,6 +51,13 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 用户登录 -----废弃
+     * @param username
+     * @param password
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/userLogin", method = RequestMethod.GET)
     @ResponseBody
     public R userLogin(@ApiParam("用户名") @RequestParam String username, @ApiParam("密码") @RequestParam String password, HttpServletRequest request){
@@ -90,25 +98,50 @@ public class LoginController {
         return R.error("用户名或密码错误！");
     }
 
+    /**
+     * 检查是否有全局会话
+     * @param redirectUrl
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/checkLogin")
-    public String checkLogin(String redirectUrl, HttpSession session, Model model){
+    public String checkLogin(String redirectUrl, Model model, HttpServletRequest request){
         // 判断是否存在全局会话
         // 从会话中获取令牌信息，如果取不到说明没有全局会员，取到说明存在
+        HttpSession session = (HttpSession) request.getSession();
         String token = (String)session.getAttribute("token");
         if(StringUtils.isEmpty(token)){
             // 表示没有全局会话
             model.addAttribute("redirectUrl",redirectUrl);
             // 跳转到统一认证中心的登陆页面
-            return "login";
+            if(UserAgentUtil.isMobile(request)){
+                logger.debug("使用手机浏览器");
+                return "login";
+            }
+            logger.debug("使用web浏览器");
+            return "pcLogin";
+
+
         }
         redirectUrl = redirectUrl + "?token=" +"token";
         model.addAttribute("redirectUrl", redirectUrl);
         return "redirect:" + redirectUrl;
     }
 
+    /**
+     * 用户登录
+     * @param username
+     * @param password
+     * @param redirectUrl
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/login")
-    public String login(String username,String password,String redirectUrl, HttpSession session, Model model){
+    public String login(String username,String password,String redirectUrl, HttpServletRequest request, Model model){
         try {
+            HttpSession session = (HttpSession) request.getSession();
             UsernamePasswordToken utoken = new UsernamePasswordToken(username, DigestUtils.md5Hex(password));
             utoken.setRememberMe(false);
             Subject subject = SecurityUtils.getSubject();
@@ -131,7 +164,13 @@ public class LoginController {
             model.addAttribute("redirectUrl", redirectUrl);
             logger.info(e.getMessage());
         }
-        return "login";
+        // 跳转到统一认证中心的登陆页面
+        if(UserAgentUtil.isMobile(request)){
+            logger.debug("使用手机浏览器");
+            return "login";
+        }
+        logger.debug("使用web浏览器");
+        return "pcLogin";
     }
 
     @RequestMapping("/verify")
@@ -145,4 +184,5 @@ public class LoginController {
         }
         return "false";
     }
+
 }
