@@ -8,13 +8,9 @@ import com.genealogysso.common.config.ApplicationContextRegister;
 import com.genealogysso.common.utils.UserAgentUtil;
 import com.management.redis.RedisManager;
 import com.management.utils.IPUtils;
-import com.management.utils.MD5Utils;
 import com.management.utils.R;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +40,9 @@ import java.util.UUID;
  * @Version: 1.0.0
  */
 @Controller
-public class LoginController {
+public class AuthorityController {
 
-    private static Logger logger = LoggerFactory.getLogger(LoginController.class);
+    private static Logger logger = LoggerFactory.getLogger(AuthorityController.class);
 
     @Autowired
     private UserService userService;
