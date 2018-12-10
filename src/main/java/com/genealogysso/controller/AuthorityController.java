@@ -18,10 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -35,7 +32,7 @@ import java.util.UUID;
 /**
  * @ Author     ：lufangpu
  * @ Date       ：Created in 16:14 2018/11/29
- * @ Description：用户登录认证
+ * @ Description：用户登录认证---统一认证中心
  * @ Modified By：
  * @Version: 1.0.0
  */
@@ -46,6 +43,7 @@ public class AuthorityController {
 
     @Autowired
     private UserService userService;
+
 
     /**
      * 用户登录 -----废弃
